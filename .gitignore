@@ -1,5 +1,5 @@
-.idea
+**/.idea
 *.iml
-out
-target
-Cargo.lock
+**/out
+**/target
+**/Cargo.lock
