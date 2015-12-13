@@ -71,20 +71,50 @@ mod test {
     use super::List;
 
     #[test]
-    fn basics() {
+    fn empty_when_new() {
         let mut list = List::new();
 
         // Check empty list behaves right
         assert_eq!(list.pop(), None);
+    }
+
+    #[test]
+    fn pops_none_when_empty() {
+        let mut list = List::new();
+        assert_eq!(list.pop(), None);
+    }
+
+    #[test]
+    fn returns_last_pushed_value() {
+        let mut list = List::new();
+
+        // Populate list
+        list.push(1);
+
+        // Check normal removal
+        assert_eq!(list.pop(), Some(1));
+    }
+
+    #[test]
+    fn pops_none_when_emptied() {
+        let mut list = List::new();
+        list.push(1);
+        list.pop();
+        assert_eq!(list.pop(), None);
+    }
+
+    #[test]
+    fn pushes_pops_pushes_pops() {
+        let mut list = List::new();
 
         // Populate list
         list.push(1);
         list.push(2);
-        list.push(3);
 
-        // Check normal removal
-        assert_eq!(list.pop(), Some(3));
         assert_eq!(list.pop(), Some(2));
+
+        list.push(3);
+        assert_eq!(list.pop(), Some(3));
 
         // Push some more just to make sure nothing's corrupted
         list.push(4);
@@ -93,8 +123,5 @@ mod test {
         // Check normal removal
         assert_eq!(list.pop(), Some(5));
         assert_eq!(list.pop(), Some(4));
-
-        // Check exhaustion
-        assert_eq!(list.pop(), Some(1));
-        assert_eq!(list.pop(), None);    }
+    }
 }
