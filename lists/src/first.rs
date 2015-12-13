@@ -71,15 +71,7 @@ mod test {
     use super::List;
 
     #[test]
-    fn empty_when_new() {
-        let mut list = List::new();
-
-        // Check empty list behaves right
-        assert_eq!(list.pop(), None);
-    }
-
-    #[test]
-    fn pops_none_when_empty() {
+    fn pops_none_when_new() {
         let mut list = List::new();
         assert_eq!(list.pop(), None);
     }
@@ -87,11 +79,7 @@ mod test {
     #[test]
     fn returns_last_pushed_value() {
         let mut list = List::new();
-
-        // Populate list
         list.push(1);
-
-        // Check normal removal
         assert_eq!(list.pop(), Some(1));
     }
 
