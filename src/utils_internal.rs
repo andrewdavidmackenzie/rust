@@ -331,7 +331,9 @@ pub async fn build_ble_stream(
                 // Data from user, forward it to the device
                 from_server = server.read(&mut buf) => {
                     let len = from_server.map_err(duplex_write_error_fn)?;
-                    ble_handler.write_to_radio(&buf[..len]).await?;
+                    if len != 0 {
+                        ble_handler.write_to_radio(&buf[..len]).await?;
+                    }
                 },
                 event = adapter_events.next() => {
                     if Some(AdapterEvent::Disconnected) == event {
