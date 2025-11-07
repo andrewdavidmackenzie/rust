@@ -243,7 +243,13 @@ impl BleHandler {
     pub async fn write_to_radio(&self, buffer: &[u8]) -> Result<(), Error> {
         self.radio
             // TODO: remove the skipping of the first 4 bytes
-            .write(&self.toradio_char, &buffer[4..], WriteType::WithResponse)
+            .write(
+                &self.toradio_char,
+                buffer.get(4..).ok_or(Error::InvalidaDataSize {
+                    data_length: buffer.len(),
+                })?,
+                WriteType::WithResponse,
+            )
             .await
             .map_err(|e: btleplug::Error| {
                 Error::InternalStreamError(InternalStreamError::StreamWriteError {
