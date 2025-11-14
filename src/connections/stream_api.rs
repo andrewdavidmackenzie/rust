@@ -210,17 +210,19 @@ impl<State> ConnectedStreamApi<State> {
             ..Default::default()
         };
 
+        mesh_packet.rx_time = current_epoch_secs_u32();
+
+        let payload_variant = Some(protobufs::to_radio::PayloadVariant::Packet(mesh_packet.clone()));
+        self.send_to_radio_packet(payload_variant).await?;
+
+        // If the sending was successful, echo it back to the client via the `PacketRouter`
         if echo_response {
-            mesh_packet.rx_time = current_epoch_secs_u32();
             packet_router
-                .handle_mesh_packet(mesh_packet.clone())
+                .handle_mesh_packet(mesh_packet)
                 .map_err(|e| Error::PacketHandlerFailure {
                     source: Box::new(e),
                 })?;
         }
-
-        let payload_variant = Some(protobufs::to_radio::PayloadVariant::Packet(mesh_packet));
-        self.send_to_radio_packet(payload_variant).await?;
 
         Ok(())
     }
