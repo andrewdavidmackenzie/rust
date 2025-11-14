@@ -118,7 +118,7 @@ impl<State> ConnectedStreamApi<State> {
     ///
     /// # Arguments
     ///
-    /// * `packet_router` - A generic packet router field that implements the `PacketRouter` trait.
+    /// * `packet_router` - A struct that implements the `PacketRouter` trait.
     /// * `byte_data` - A `Vec<u8>` containing the byte data to send.
     /// * `port_num` - A `PortNum` enum that specifies the port number to send the packet on.
     /// * `destination` - A `PacketDestination` enum that specifies the destination of the packet.
